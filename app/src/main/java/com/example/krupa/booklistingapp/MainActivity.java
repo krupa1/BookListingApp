@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String BOOKS_STATE = "bookList";
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 activeNetwork = cm.getActiveNetworkInfo();
                 // Kick off an {@link AsyncTask} to perform the network request
-                if((activeNetwork != null) && activeNetwork.isConnectedOrConnecting()) {
+                if ((activeNetwork != null) && activeNetwork.isConnectedOrConnecting()) {
                     BookAsyncTask task = new BookAsyncTask(query, NUMBER_OF_RESULTS);
                     task.execute();
                     return true;
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<Books> books) {
-            if (books==null) {
+            if (books == null) {
                 return;
             }
             rBooksList = books;
@@ -144,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
         private URL createUrl(String stringUrl, String searchQuery, int count) {
             URL url = null;
 
-            try{
-                url = new URL(stringUrl+"?q="+searchQuery+"&maxResults="+count);
+            try {
+                url = new URL(stringUrl + "?q=" + searchQuery + "&maxResults=" + count);
             } catch (MalformedURLException exception) {
                 Log.e(LOG_TAG, "Error with creating URL: ", exception);
             }
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             return url;
         }
 
-        private String makeHttpRequest(URL url) throws IOException{
+        private String makeHttpRequest(URL url) throws IOException {
             String jsonResponse = "";
             HttpURLConnection urlConnection = null;
             InputStream inputStream = null;
@@ -165,13 +164,13 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.setConnectTimeout(15000);
                 urlConnection.connect();
 
-                if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     inputStream = urlConnection.getInputStream();
                     jsonResponse = readFromStream(inputStream);
                 }
 
             } catch (IOException e) {
-                Log.e(LOG_TAG, "Error when calling makeHttpRequest: ",e);
+                Log.e(LOG_TAG, "Error when calling makeHttpRequest: ", e);
             }
 
             return jsonResponse;
@@ -179,11 +178,11 @@ public class MainActivity extends AppCompatActivity {
 
         private String readFromStream(InputStream inputStream) throws IOException {
             StringBuilder output = new StringBuilder();
-            if(inputStream != null) {
+            if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
                 BufferedReader reader = new BufferedReader(inputStreamReader);
                 String line = reader.readLine();
-                while(line != null) {
+                while (line != null) {
                     output.append(line);
                     line = reader.readLine();
                 }

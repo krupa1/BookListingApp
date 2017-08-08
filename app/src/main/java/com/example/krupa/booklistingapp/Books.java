@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class Books implements Parcelable{
+public class Books implements Parcelable {
     private String rTitle;
     private String rSubtitle;
     private ArrayList<String> rAuthors;
@@ -42,27 +42,36 @@ public class Books implements Parcelable{
             JSONObject volumeInfo = object.getJSONObject("volumeInfo");
 
             this.rTitle = volumeInfo.getString("title");
-            if(volumeInfo.optString("subtitle")!=null)
-            this.rSubtitle = volumeInfo.optString("subtitle");
+            if (volumeInfo.optString("subtitle") != null)
+                this.rSubtitle = volumeInfo.optString("subtitle");
             this.rAuthors = new ArrayList<String>();
 
             JSONArray jsonArrayAuthors = volumeInfo.optJSONArray("authors");
             if (jsonArrayAuthors != null) {
-                for (int i=0;i<jsonArrayAuthors.length();i++){
+                for (int i = 0; i < jsonArrayAuthors.length(); i++) {
                     rAuthors.add(jsonArrayAuthors.get(i).toString());
                 }
             }
-            if(volumeInfo.optString("publishedDate")!=null)
-            this.rPublishedDate = volumeInfo.optString("publishedDate");
+            if (volumeInfo.optString("publishedDate") != null)
+                this.rPublishedDate = volumeInfo.optString("publishedDate");
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public String getTitle() { return rTitle; }
-    public String getSubtitle() { return rSubtitle; }
-    public String getPublishedDate() { return rPublishedDate; }
+    public String getTitle() {
+        return rTitle;
+    }
+
+    public String getSubtitle() {
+        return rSubtitle;
+    }
+
+    public String getPublishedDate() {
+        return rPublishedDate;
+    }
+
     public String getAuthors() {
         if (rAuthors == null || rAuthors.size() == 0) return "";
         return TextUtils.join(", ", rAuthors);
