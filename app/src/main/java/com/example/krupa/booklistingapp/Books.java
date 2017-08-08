@@ -42,17 +42,18 @@ public class Books implements Parcelable{
             JSONObject volumeInfo = object.getJSONObject("volumeInfo");
 
             this.rTitle = volumeInfo.getString("title");
-            this.rSubtitle = volumeInfo.getString("subtitle");
+            if(volumeInfo.optString("subtitle")!=null)
+            this.rSubtitle = volumeInfo.optString("subtitle");
             this.rAuthors = new ArrayList<String>();
 
-            JSONArray jsonArrayAuthors = volumeInfo.getJSONArray("authors");
+            JSONArray jsonArrayAuthors = volumeInfo.optJSONArray("authors");
             if (jsonArrayAuthors != null) {
                 for (int i=0;i<jsonArrayAuthors.length();i++){
                     rAuthors.add(jsonArrayAuthors.get(i).toString());
                 }
             }
-
-            this.rPublishedDate = volumeInfo.getString("publishedDate");
+            if(volumeInfo.optString("publishedDate")!=null)
+            this.rPublishedDate = volumeInfo.optString("publishedDate");
 
         } catch (JSONException e) {
             e.printStackTrace();

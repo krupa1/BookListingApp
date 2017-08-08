@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private ConnectivityManager cm;
     private NetworkInfo activeNetwork;
     private ArrayList<Books> rBooksList;
+    private BooksAdapter madapter;
+    TextView textNoDataFound;
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final int NUMBER_OF_RESULTS = 10;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        textNoDataFound = (TextView) findViewById(R.id.text_no_data_found);
 
         cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -85,22 +88,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        
+
         outState.putParcelableArrayList(BOOKS_STATE, rBooksList);
 
         super.onSaveInstanceState(outState);
     }
 
+
     // Update screen
     private void updateUi() {
         BooksAdapter adapter = new BooksAdapter(this, rBooksList);
-
         TextView tvInstructions = (TextView) findViewById(R.id.search_instructions);
         tvInstructions.setVisibility(View.GONE);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         listView.setVisibility(View.VISIBLE);
+
     }
 
     private class BookAsyncTask extends AsyncTask<URL, Void, ArrayList<Books>> {
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<Books> books) {
-            if (books == null) {
+            if (books==null) {
                 return;
             }
             rBooksList = books;
@@ -190,12 +194,12 @@ public class MainActivity extends AppCompatActivity {
         private ArrayList<Books> extractItemsFromJson(String booksJson) {
             try {
                 JSONObject baseJsonResponse = new JSONObject(booksJson);
-                JSONArray itemsArray = baseJsonResponse.getJSONArray("items");
-
-                if(itemsArray.length() > 0) {
-                    return Books.fromJson(itemsArray);
+                if (!baseJsonResponse.isNull("items")) {
+                    JSONArray itemsArray = baseJsonResponse.getJSONArray("items");
+                    if (itemsArray.length() > 0) {
+                        return Books.fromJson(itemsArray);
+                    }
                 }
-
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "Problem parsing books JSON results: ", e);
             }

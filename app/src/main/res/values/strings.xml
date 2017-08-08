@@ -2,6 +2,6 @@
     <string name="app_name">Book Listing</string>
     <string name="search_hint">Search</string>
     <string name="search_instruction">Search for a book by clicking on the magnifying glass.</string>
-
+    <string name="clear">Clear</string>
 </resources>
 

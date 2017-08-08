@@ -24,6 +24,17 @@
         android:textAppearance="@style/CodeFont"
         android:text="@string/search_instruction"/>
 
+    <TextView
+        android:id="@+id/text_no_data_found"
+        android:text="@string/clear"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:textAppearance="@style/CodeFont"
+        tools:visibility="visible"
+        android:visibility="gone"/>
+
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
