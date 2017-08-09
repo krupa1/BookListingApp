@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textNoDataFound = (TextView) findViewById(R.id.text_no_data_found);
+        textNoDataFound = (TextView) findViewById(R.id.empty_list_item);
+
 
         cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         BooksAdapter adapter = new BooksAdapter(this, rBooksList);
         TextView tvInstructions = (TextView) findViewById(R.id.search_instructions);
         tvInstructions.setVisibility(View.GONE);
-
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         listView.setVisibility(View.VISIBLE);
@@ -137,11 +137,12 @@ public class MainActivity extends AppCompatActivity {
                 // hide listview 
                 ListView lv = (ListView) findViewById(R.id.list_view);
                 lv.setVisibility(View.GONE);
+                textNoDataFound.setVisibility(View.VISIBLE);
                 return;
             }
 
             rBooksList = books;
-                updateUi();
+            updateUi();
         }
 
         private URL createUrl(String stringUrl, String searchQuery, int count) {
