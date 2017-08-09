@@ -139,10 +139,11 @@ public class MainActivity extends AppCompatActivity {
                 lv.setVisibility(View.GONE);
                 textNoDataFound.setVisibility(View.VISIBLE);
                 return;
+            } else {
+                textNoDataFound.setVisibility(View.GONE);
+                rBooksList = books;
+                updateUi();
             }
-
-            rBooksList = books;
-            updateUi();
         }
 
         private URL createUrl(String stringUrl, String searchQuery, int count) {
