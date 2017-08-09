@@ -134,10 +134,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Books> books) {
             if (books == null) {
+                // hide listview 
+                ListView lv = (ListView) findViewById(R.id.list_view);
+                lv.setVisibility(View.GONE);
                 return;
             }
+
             rBooksList = books;
-            updateUi();
+                updateUi();
         }
 
         private URL createUrl(String stringUrl, String searchQuery, int count) {
